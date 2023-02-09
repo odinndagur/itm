@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <link href='https://fonts.googleapis.com/css?family=Faustina' rel='stylesheet'>
+    <title>Íslenskt táknmál</title>
+</head>
+<body onload="updateSearch()">
+
+    <div class="container">
+        <header>
+            <div class="heading">Íslenskt táknmál</div>
+            <div class="sign-search">
+                <input type="text" name="" id="search-input" placeholder="Search for a sign" oninput="updateSearch()" onchange="updateSearch()">
+            </div>
+        </header>
+        <div class="search-results"></div>
+    </div>
+    
+</body>
+
+<style>
+
+</style>
+
+
+
+<script type="module">
+    import { load } from "./dist/sql-httpvfs.js";
+    window.loadDB = load
+
+    window.loadDB('./signtest.sqlite3').then(db => {
+    window.db = db.db
+    })
+</script>
+
+<script async defer>
+    async function updateSearch(){
+        if(!window.db){
+            setTimeout(updateSearch,150)
+            return
+        }
+        let inp = document.querySelector('#search-input')
+        let searchValue = inp.value
+        if(true){
+            searchValue = searchValue + "*"
+        }
+        let query
+        if(inp.value == ""){
+            query = `select * from sign_fts order by phrase asc`
+        }
+        else {
+            query = `select * from sign_fts where sign_fts match "${searchValue}" order by rank, phrase asc`
+        }
+
+        let signs = await window.db.query(query)
+        let searchResultsElement = document.querySelector('.search-results')
+        searchResultsElement.innerHTML = ''
+        for(let sign of signs){
+            // console.log(sign)
+            let related_signs = sign.related_signs.split(',').map(rel => {
+                const [phrase, id] = rel.split('_id_')
+                return `<span class="related-sign-phrase"><a href="/?sign_id=${id}">${phrase}</a></span>`
+            }).join('')
+            let el = document.createElement('div')
+            el.classList.add('sign')
+            el.innerHTML = `
+            <div class="sign-phrase">${sign.phrase}</div>
+            ${related_signs}
+
+            `
+            searchResultsElement.appendChild(el)
+        }
+    }
+</script>
+</html>
