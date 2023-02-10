@@ -81,7 +81,7 @@
             // console.log(sign)
             let related_signs = sign.related_signs.split(',').map(rel => {
                 const [phrase, id] = rel.split('_id_')
-                return `<span class="related-sign-phrase"><a href="/?sign_id=${id}">${phrase}</a></span>`
+                return `<span class="related-sign-phrase"><a href="./?sign_id=${id}">${phrase}</a></span>`
             }).join('')
 
             let sign_collections = sign.collections.split(',').map(col=>{
@@ -94,7 +94,7 @@
             el.innerHTML = `
             <div>
                 <div class="sign-phrase">
-                    <a href="/?sign_id=${sign.id}">${sign.phrase}</a>
+                    <a href="./?sign_id=${sign.id}">${sign.phrase}</a>
                     <span class="sign-collections">${sign_collections}</span>
                 </div>
                 ${related_signs}
