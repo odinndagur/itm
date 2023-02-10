@@ -8,11 +8,11 @@
     <link href='https://fonts.googleapis.com/css?family=Faustina' rel='stylesheet'>
     <title>Íslenskt táknmál</title>
 </head>
-<body onload="updateSearch()">
+<body onload="init()">
 
     <div class="container">
         <header>
-            <div class="heading">Íslenskt táknmál</div>
+            <a href="./"><div class="heading">Íslenskt táknmál</div></a>
             <div class="sign-search">
                 <input type="text" name="" id="search-input" placeholder="Search for a sign" oninput="updateSearch()" onchange="updateSearch()">
             </div>
@@ -38,9 +38,25 @@
 </script>
 
 <script async defer>
-    async function updateSearch(){
+    function init(){
+        let params = {}
+        window.location.search.substring(1).split('&').forEach(temp => {
+            const [param, value] = temp.split('=')
+            params[param] = value
+        })
+        if(params.sign_id){
+            updateSearch(`select * from sign_fts where id =${params.sign_id}`)
+        }
+        else{
+            updateSearch()
+        }
+    }
+
+    async function updateSearch(inputQuery){
         if(!window.db){
-            setTimeout(updateSearch,150)
+            setTimeout(function(){
+                updateSearch(inputQuery)
+            },150)
             return
         }
         let inp = document.querySelector('#search-input')
@@ -55,7 +71,9 @@
         else {
             query = `select * from sign_fts where sign_fts match "${searchValue}" order by rank, phrase asc`
         }
-
+        if(inputQuery){
+            query = inputQuery
+        }
         let signs = await window.db.query(query)
         let searchResultsElement = document.querySelector('.search-results')
         searchResultsElement.innerHTML = ''
@@ -65,11 +83,22 @@
                 const [phrase, id] = rel.split('_id_')
                 return `<span class="related-sign-phrase"><a href="/?sign_id=${id}">${phrase}</a></span>`
             }).join('')
+
+            let sign_collections = sign.collections.split(',').map(col=>{
+                const [collection, id] = col.split('_id_')
+                return `<span class="collection"><a href="/?collection_id=${id}">${collection}</a></span>`
+            }).join('')
             let el = document.createElement('div')
             el.classList.add('sign')
+            el.onclick = ''
             el.innerHTML = `
-            <div class="sign-phrase">${sign.phrase}</div>
-            ${related_signs}
+            <div>
+                <div class="sign-phrase">
+                    <a href="/?sign_id=${sign.id}">${sign.phrase}</a>
+                    <span class="sign-collections">${sign_collections}</span>
+                </div>
+                ${related_signs}
+            </div>
 
             `
             searchResultsElement.appendChild(el)
