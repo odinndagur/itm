@@ -92,6 +92,10 @@
   padding: 0.5rem 0;
 }
 
+.sign-phrase>a {
+  font-style: normal !important;
+}
+
 .search-results {
   width: 70%;
   margin: auto;
