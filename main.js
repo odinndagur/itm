@@ -14,13 +14,13 @@ function init(){
         if(sign.related_signs){
             related_signs = sign.related_signs.split(',').map(rel => {
                 // const [phrase, id] = rel.split('_id_')
-                return `<span class="related-sign-phrase"><a href="/">${rel}</a></span>`
+                return `<span class="related-sign-phrase"><a href="/itm">${rel}</a></span>`
             }).join('')
         }
         if(sign.collections){
             sign_collections = sign.collections.split(',').map(col=>{
                 const [collection, id] = col.split('_id_')
-                return `<span class="collection"><a href="/?collection_id=${id}">${collection}</a></span>`
+                return `<span class="collection"><a href="/itm?collection_id=${id}">${collection}</a></span>`
             }).join('')
         }
         let el = document.createElement('div')
@@ -29,7 +29,7 @@ function init(){
         el.innerHTML = `
         <div>
             <div class="sign-phrase">
-                <a href="/?sign_id=${sign.id}">${sign.phrase}</a>
+                <a href="/itm?sign_id=${sign.id}">${sign.phrase}</a>
                 <span class="sign-collections">${sign_collections}</span>
             </div>
             ${related_signs}
