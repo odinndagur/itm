@@ -97,7 +97,7 @@
 }
 
 .search-results {
-  width: 70%;
+  width: 90vw;
   margin: auto;
 }
 
@@ -116,3 +116,4 @@ a:hover {
 .sign-collections {
   float: right;
 }
+
