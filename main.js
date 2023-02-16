@@ -17,7 +17,12 @@ function init(){
 
 
 async function updateSearch(inputQuery){
-
+    if(!window.db){
+        setTimeout(function(){
+            init()
+        },150)
+        return
+    }
     let inp = document.querySelector('#search-input')
     let searchValue = inp.value
     // if(true){
