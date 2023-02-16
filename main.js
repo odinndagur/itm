@@ -106,7 +106,8 @@ function init(){
             // `
 
             youtubeElement.outerHTML = `
-            <iframe allowfullscreen="1" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" title="&quot;Ég hlýði Víði&quot;" src="https://www.youtube.com/embed/${yt_id}?enablejsapi=1&origin=https://odinndagur.github.io/itm&amp;widgetid=1" id="widget${yt_id}" width="450" height="253.125" frameborder="0"></iframe>
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/Nlgj3C4lCY4" frameborder="0" allowfullscreen></iframe>
+
             `
             // youtubeElement.width = "420px"
             // youtubeElement.height = "315px"
