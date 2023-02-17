@@ -67,13 +67,21 @@ async function showYoutube(el){
         youtubeElement.classList.add('sign-video')
         const iframe = document.createElement("iframe");
         youtubeElement.setAttribute("display", "inline-block");
-        youtubeElement.style.width = "500px"
+        // youtubeElement.style.width = "500px"
         // youtubeElement.style.aspectRatio = 1.5
         // youtubeElement.style.padding = '0.5rem'
         // youtubeElement.setAttribute("max-width","500px")
-        // iframe.setAttribute("aspect-ratio", "0.667");
+        // iframe.setAttribute("width", "200px");
+        // iframe.setAttribute("height", "600px");
         iframe.setAttribute("src", `https://www.youtube.com/embed/${yt_id}?autoplay=1&loop=1&rel=0&controls=0&mute=1&playsinline=0&playlist=${yt_id}`);
         youtubeElement.appendChild(iframe)
         el.appendChild(youtubeElement)
+        while(true){
+            let videoStream = document.querySelector('.video-stream')
+            if(videoStream){
+                console.log(videoStream)
+                return
+            }
+        }
     }
 }
