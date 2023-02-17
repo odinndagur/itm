@@ -37,7 +37,7 @@ async function updateSearch(inputQuery){
     // }
     let query
     if(inp.value == ""){
-        query = `select * from sign order by phrase asc limit 50`
+        query = `select * from sign order by phrase asc`
         // query = 'select * from sign order by phrase asc'
     }
     else {
