@@ -1,3 +1,10 @@
+const isElementLoaded = async selector => {
+    while ( document.querySelector(selector) === null) {
+      await new Promise( resolve =>  requestAnimationFrame(resolve) )
+    }
+    return document.querySelector(selector);
+  };
+
 function init(){
     if(!window.db){
         setTimeout(function(){
@@ -76,12 +83,15 @@ async function showYoutube(el){
         iframe.setAttribute("src", `https://www.youtube.com/embed/${yt_id}?autoplay=1&loop=1&rel=0&controls=0&mute=1&playsinline=0&playlist=${yt_id}`);
         youtubeElement.appendChild(iframe)
         el.appendChild(youtubeElement)
-        while(true){
-            let videoStream = document.querySelector('.video-stream')
-            if(videoStream){
-                console.log(videoStream)
-                return
-            }
-        }
+        isElementLoaded('.video-stream').then(videoStream => {
+            console.log('videostream',videoStream)
+        })
+        // for(;;){
+        //     let videoStream = document.querySelector('.video-stream')
+        //     if(videoStream){
+        //         console.log(videoStream)
+        //         return
+        //     }
+        // }
     }
 }
