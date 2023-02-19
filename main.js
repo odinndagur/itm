@@ -74,7 +74,7 @@ async function showYoutube(el){
         youtubeElement.classList.add('sign-video')
         const iframe = document.createElement("iframe");
         youtubeElement.setAttribute("display", "inline-block");
-        iframe.setAttribute("src", `https://www.youtube.com/embed/${yt_id}?autoplay=1&loop=1&rel=0&controls=0&mute=1&playsinline=0&playlist=${yt_id}`);
+        iframe.setAttribute("src", `https://www.youtube.com/embed/${yt_id}?autoplay=1&loop=1&rel=0&controls=0&mute=1&playsinline=0&origin=https://odinndagur.github.io&playlist=${yt_id}`);
         youtubeElement.appendChild(iframe)
         el.appendChild(youtubeElement)
     }
