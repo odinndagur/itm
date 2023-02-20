@@ -34,9 +34,9 @@ var URLS = [                            // Add URL you want to cache in this lis
     '/itm/main.js',
     '/itm/manifest.json',
     '/itm/style.css',
-    '._signtest.sqlite3',
-    '/itm/_signtest.sqlite3',
-    '/itm/dist/_signtest.sqlite3'
+    // '._signtest.sqlite3',
+    // '/itm/_signtest.sqlite3',
+    // '/itm/dist/_signtest.sqlite3'
 ]
 
 // Respond with cached resources
