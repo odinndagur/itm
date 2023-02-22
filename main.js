@@ -43,7 +43,7 @@ async function updateSearch(inputQuery){
         }
         query = `select * from sign_fts join sign on sign_fts.id = sign.id where sign_fts match "${searchValue}" order by rank, phrase asc`
         // query = `select * from sign where id in (
-        //     select id from sign_fts where sign_fts match "${searchValue}*" order by rank
+        //     select id from sign_fts where sign_fts match "${searchValue}" order by rank
         // )`
         // query = `select * from sign where phrase like "%${searchValue}%" order by phrase asc`
     }
