@@ -72,11 +72,14 @@ async function showYoutube(el){
         let yt_id = el.attributes['youtube_id'].nodeValue
         let youtubeElement = document.createElement('div')
         youtubeElement.classList.add('sign-video')
-        const iframe = document.createElement("iframe");
         youtubeElement.setAttribute("display", "inline-block");
-        iframe.setAttribute("src", `https://www.youtube.com/embed/${yt_id}?autoplay=1&loop=1&rel=0&controls=0&mute=1&playsinline=0&playlist=${yt_id}`);
-        iframe.allowFullscreen = true;
-        youtubeElement.appendChild(iframe)
+        youtubeEmbedUrl = `https://www.youtube.com/embed/${yt_id}?autoplay=1&loop=1&rel=0&controls=0&mute=1&playsinline=0&playlist=${yt_id}`
+        fetch(youtubeEmbedUrl, {mode:'no-cors'}).then(res => {
+            const iframe = document.createElement("iframe");
+            iframe.setAttribute("src", youtubeEmbedUrl);
+            iframe.allowFullscreen = true;
+            youtubeElement.appendChild(iframe)
+        })
         el.appendChild(youtubeElement)
 
     }
