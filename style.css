@@ -93,7 +93,7 @@
     border-radius: 1em;
     padding: 0.5rem;
     -webkit-box-shadow: 5px 5px 15px -8px #000000; 
-  box-shadow: 5px 5px 15px -8px rgba(80,80,80,0.3);
+    box-shadow: 5px 5px 15px -8px rgba(80,80,80,0.3);
 }
 
 .sign:hover {
@@ -108,6 +108,14 @@
 
 .sign-phrase>a {
   font-style: normal !important;
+}
+
+.addToListIcon {
+  float: right;
+}
+
+.addToListIcon:hover {
+  cursor: pointer;
 }
 
 .search-results {

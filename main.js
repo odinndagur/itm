@@ -1,10 +1,3 @@
-const isElementLoaded = async selector => {
-    while ( document.querySelector(selector) === null) {
-      await new Promise( resolve =>  requestAnimationFrame(resolve) )
-    }
-    return document.querySelector(selector);
-  };
-
 function init(){
     if(!window.db){
         setTimeout(function(){
@@ -19,22 +12,27 @@ function init(){
     })
 
     updateSearch()
+
+    window.addEventListener('scroll', () => {
+        let bottomOfWindow = Math.max(window.pageYOffset, document.documentElement.scrollTop, document.body.scrollTop) + window.innerHeight === document.documentElement.offsetHeight
+        if (bottomOfWindow) {
+            this.loadMore();
+            }
+    })
         
     }
 
 
 async function updateSearch(inputQuery){
-    if(!window.db){
-        setTimeout(function(){
-            init()
-        },150)
-        return
-    }
+    // if(!window.db){
+    //     setTimeout(function(){
+    //         init()
+    //     },150)
+    //     return
+    // }
+    let userCollectionSigns = JSON.parse(window.localStorage.getItem('userCollectionSigns')) || []
     let inp = document.querySelector('#search-input')
     let searchValue = inp.value
-    // if(true){
-    //     searchValue = searchValue + "*"
-    // }
     let query
     if(!searchValue){
         query = `select * from sign order by phrase asc limit 30`
@@ -61,6 +59,8 @@ async function updateSearch(inputQuery){
         return `<div class="sign" onclick="showYoutube(this)" id="${sign.id}" youtube_id="${sign.youtube_id}">
                     <div class="sign-phrase">
                         <span>${sign.phrase}</span>
+                        <span class="addToListIcon" onclick="addToList(${sign.id})">
+                        <i class="material-icons">${userCollectionSigns.includes(sign.id) ? 'playlist_add_check' : 'playlist_add'}</i></span>
                     </div>
                 </div>`
     }).join('')
@@ -91,4 +91,28 @@ async function showYoutube(el){
         el.appendChild(youtubeElement)
 
     }
+}
+
+const isElementLoaded = async selector => {
+    while ( document.querySelector(selector) === null) {
+      await new Promise( resolve =>  requestAnimationFrame(resolve) )
+    }
+    return document.querySelector(selector);
+  };
+
+function addToList(id){
+    // console.log(id)
+    let userCollectionSigns = JSON.parse(window.localStorage.getItem('userCollectionSigns')) || []
+    // if(userCollectionSigns){
+    //     userCollectionSigns = JSON.parse(userCollectionSigns)
+    // } else {
+    //     userCollectionSigns = []
+    // }
+    if(!userCollectionSigns.includes(id)){
+        userCollectionSigns.push(id)
+        document.getElementById(`${id}`).outerHTML = document.getElementById(`${id}`).outerHTML.replace('playlist_add','playlist_add_check')
+    }
+    window.localStorage.setItem('userCollectionSigns', JSON.stringify(userCollectionSigns))
+    window.event.stopPropagation()
+
 }
