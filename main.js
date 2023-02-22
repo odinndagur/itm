@@ -5,37 +5,34 @@ function init(){
         },150)
         return
     }
-    let params = {}
-    window.location.search.substring(1).split('&').forEach(temp => {
-        const [param, value] = temp.split('=')
-        params[param] = value
-    })
+    // let params = {}
+    // window.location.search.substring(1).split('&').forEach(temp => {
+    //     const [param, value] = temp.split('=')
+    //     params[param] = value
+    // })
 
-    updateSearch()
-
+    
     window.addEventListener('scroll', () => {
-        let bottomOfWindow = Math.max(window.pageYOffset, document.documentElement.scrollTop, document.body.scrollTop) + window.innerHeight === document.documentElement.offsetHeight
+        // console.log('scroll')
+        let bottomOfWindow = Math.max(window.pageYOffset, document.documentElement.scrollTop, document.body.scrollTop) + window.innerHeight >= (document.documentElement.offsetHeight - 100)
         if (bottomOfWindow) {
             hitWindowBottom()
-            }
+        }
     })
-        
+    
+    updateSearch()
     }
 
 
 async function updateSearch(inputQuery){
-    // if(!window.db){
-    //     setTimeout(function(){
-    //         init()
-    //     },150)
-    //     return
-    // }
     let userCollectionSigns = JSON.parse(window.localStorage.getItem('userCollectionSigns')) || []
     let inp = document.querySelector('#search-input')
     let searchValue = inp.value
+    let searchResultsElement = document.querySelector('.search-results')
     let query
     if(!searchValue){
-        query = `select * from sign order by phrase asc limit 20`
+        let currentSignCount = searchResultsElement.children.length
+        query = `select * from sign order by phrase asc limit 20 offset ${currentSignCount}`
         // query = 'select * from sign order by phrase asc'
     } if (searchValue[0] === '*'){
         query = `select * from sign where phrase like "%${searchValue.substring(1)}%" order by phrase asc`
@@ -50,12 +47,12 @@ async function updateSearch(inputQuery){
     if(inputQuery){
         query = inputQuery
     }
-    console.log('query: ',query, 
-                'search value: ', searchValue,
-                'search value === ""', searchValue === "")
+
     let signs = await window.db.query(query)
-    let searchResultsElement = document.querySelector('.search-results')
-    searchResultsElement.innerHTML = signs.map(sign => {
+    if(searchValue){
+        searchResultsElement.innerHTML = ""
+    }
+    searchResultsElement.innerHTML = searchResultsElement.innerHTML + signs.map(sign => {
         return `<div class="sign" onclick="showYoutube(this)" id="${sign.id}" youtube_id="${sign.youtube_id}">
                     <div class="sign-phrase">
                         <span>${sign.phrase}</span>
@@ -65,6 +62,16 @@ async function updateSearch(inputQuery){
                 </div>`
     }).join('')
 
+}
+
+function createSignElement(sign){
+    return `<div class="sign" onclick="showYoutube(this)" id="${sign.id}" youtube_id="${sign.youtube_id}">
+                    <div class="sign-phrase">
+                        <span>${sign.phrase}</span>
+                        <span class="addToListIcon" onclick="addToList(${sign.id})">
+                        <i class="material-icons">${userCollectionSigns.includes(sign.id) ? 'playlist_add_check' : 'playlist_add'}</i></span>
+                    </div>
+                </div>`
 }
 
 async function showYoutube(el){       
@@ -117,3 +124,7 @@ function addToList(id){
 
 }
 
+function hitWindowBottom() {
+    // console.log('bottom')
+    updateSearch()
+}
