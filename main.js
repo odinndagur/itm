@@ -16,7 +16,7 @@ function init(){
     window.addEventListener('scroll', () => {
         let bottomOfWindow = Math.max(window.pageYOffset, document.documentElement.scrollTop, document.body.scrollTop) + window.innerHeight === document.documentElement.offsetHeight
         if (bottomOfWindow) {
-            this.loadMore();
+            hitWindowBottom()
             }
     })
         
@@ -35,7 +35,7 @@ async function updateSearch(inputQuery){
     let searchValue = inp.value
     let query
     if(!searchValue){
-        query = `select * from sign order by phrase asc limit 30`
+        query = `select * from sign order by phrase asc limit ${signCount}`
         // query = 'select * from sign order by phrase asc'
     } if (searchValue[0] === '*'){
         query = `select * from sign where phrase like "%${searchValue.substring(1)}%" order by phrase asc`
@@ -116,3 +116,4 @@ function addToList(id){
     window.event.stopPropagation()
 
 }
+
