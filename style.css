@@ -1,3 +1,8 @@
+:root {
+  --background-color-light: #FFF;
+  --background-color-dark: #212121;
+}
+
 @media screen and (max-width: 767px) {
     input, select, textarea {
       font-size: 16px;
@@ -7,10 +12,23 @@
       bottom: 0px;
     }
   }
-    html, body {
-      margin: auto;
-      padding: 0;
+
+  @media screen and (prefers-color-scheme: dark){
+    input, body, header {
+      background-color: var(--background-color-dark);
+      color: rgba(255,255,255,0.7);
     }
+  }
+
+  @media screen and (prefers-color-scheme: light){
+    input, body, header {
+      background-color: var(--background-color-light);
+    }
+  }
+  html, body {
+    margin: auto;
+    padding: 0;
+  }
 
   
     .container {
@@ -22,7 +40,6 @@
   header {
     position: sticky;
     padding-top: env(safe-area-inset-top,0.3rem);
-    background-color: white;
     top: 0;
     flex-shrink: 0;
     margin: 2rem 1rem;
@@ -45,7 +62,7 @@
   
   .heading {
     text-align: center;
-    color:#000;
+    /* color:#000; */
     font-family: 'Faustina';
     font-size: 30pt;
     font-style: italic;
@@ -76,6 +93,7 @@
 
 .sign:hover {
   background-color: rgba(80,80,80,0.3);
+  text-decoration: underline;
 }
 .sign-phrase {
   font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
@@ -94,7 +112,7 @@
 
 a {
   padding-right: 0.5rem;
-  color: black;
+  color: inherit;
   font-style: italic;
   text-decoration: none;
 }
