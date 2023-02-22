@@ -41,8 +41,8 @@ async function updateSearch(inputQuery){
         // query = 'select * from sign order by phrase asc'
     }
     else {
-        // query = `select * from sign_fts join sign on sign_fts.id = sign.id where sign_fts match "${searchValue}*" order by rank, phrase asc`
-        query = `select * from sign where phrase like "%${searchValue}%" order by phrase asc`
+        query = `select * from sign_fts join sign on sign_fts.id = sign.id where sign_fts match "${searchValue}*" order by rank, phrase asc`
+        // query = `select * from sign where phrase like "%${searchValue}%" order by phrase asc`
     }
     if(inputQuery){
         query = inputQuery
