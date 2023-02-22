@@ -35,7 +35,7 @@ async function updateSearch(inputQuery){
     let searchValue = inp.value
     let query
     if(!searchValue){
-        query = `select * from sign order by phrase asc limit ${signCount}`
+        query = `select * from sign order by phrase asc limit 40`
         // query = 'select * from sign order by phrase asc'
     } if (searchValue[0] === '*'){
         query = `select * from sign where phrase like "%${searchValue.substring(1)}%" order by phrase asc`
