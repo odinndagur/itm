@@ -36,12 +36,13 @@ async function updateSearch(inputQuery){
     //     searchValue = searchValue + "*"
     // }
     let query
-    if(searchValue == ""){
+    if(!searchValue){
         query = `select * from sign order by phrase asc limit 30`
         // query = 'select * from sign order by phrase asc'
-    } if (searchValue[0] == '*'){
+    } if (searchValue[0] === '*'){
         query = `select * from sign where phrase like "%${searchValue.substring(1)}%" order by phrase asc`
-    } else {
+    } 
+    if(searchValue && searchValue[0] != '*') {
         query = `select * from sign_fts join sign on sign_fts.id = sign.id where sign_fts match "${searchValue}*" order by rank, phrase asc`
         // query = `select * from sign where id in (
         //     select id from sign_fts where sign_fts match "${searchValue}*" order by rank
@@ -51,12 +52,15 @@ async function updateSearch(inputQuery){
     if(inputQuery){
         query = inputQuery
     }
+    console.log('query: ',query, 
+                'search value: ', searchValue,
+                'search value === ""', searchValue === "")
     let signs = await window.db.query(query)
     let searchResultsElement = document.querySelector('.search-results')
     searchResultsElement.innerHTML = signs.map(sign => {
         return `<div class="sign" onclick="showYoutube(this)" id="${sign.id}" youtube_id="${sign.youtube_id}">
                     <div class="sign-phrase">
-                        <a href="/?sign_id=${sign.id}">${sign.phrase}</a>
+                        <span>${sign.phrase}</span>
                     </div>
                 </div>`
     }).join('')
