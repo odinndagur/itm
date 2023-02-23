@@ -50,7 +50,7 @@ async function updateSearch(inputQuery){
             searchValue = searchValue + '*'
         }
         // query = `select * from sign_fts join sign on sign_fts.id = sign.id where sign_fts match "${searchValue}" order by rank, phrase asc`
-        query = `select * from sign_fts where sign_fts match "${searchValue}" order by rank, phrase asc`
+        query = `select * from sign_fts join sign on sign.id = sign_fts.id where sign_fts match "${searchValue}" order by rank, phrase asc`
         currentSignOffset = 0;
         // query = `select * from sign where id in (
         //     select id from sign_fts where sign_fts match "${searchValue}" order by rank
