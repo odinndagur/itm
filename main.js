@@ -1,3 +1,10 @@
+let currentSignOffset = 0;
+
+const router = new Navigo('/');
+router.on('/collections', function () {
+    console.log('collections')
+  });
+
 function init(){
     if(!window.db){
         setTimeout(function(){
@@ -5,11 +12,8 @@ function init(){
         },150)
         return
     }
-    // let params = {}
-    // window.location.search.substring(1).split('&').forEach(temp => {
-    //     const [param, value] = temp.split('=')
-    //     params[param] = value
-    // })
+
+
 
     
     window.addEventListener('scroll', () => {
@@ -29,19 +33,25 @@ async function updateSearch(inputQuery){
     let inp = document.querySelector('#search-input')
     let searchValue = inp.value
     let searchResultsElement = document.querySelector('.search-results')
+    if(!currentSignOffset > 0){
+        searchResultsElement.innerHTML = ""
+    }
     let query
     if(!searchValue){
-        let currentSignCount = searchResultsElement.children.length
-        query = `select * from sign order by phrase asc limit 20 offset ${currentSignCount}`
+        query = `select * from sign order by phrase asc limit 20 offset ${currentSignOffset}`
+        currentSignOffset += 20;
         // query = 'select * from sign order by phrase asc'
     } if (searchValue[0] === '*'){
         query = `select * from sign where phrase like "%${searchValue.substring(1)}%" order by phrase asc`
+        currentSignOffset = 0;
     } 
     if(searchValue && searchValue[0] != '*') {
         if(searchValue[searchValue.length-1] != '*'){
             searchValue = searchValue + '*'
         }
-        query = `select * from sign_fts join sign on sign_fts.id = sign.id where sign_fts match "${searchValue}" order by rank, phrase asc`
+        // query = `select * from sign_fts join sign on sign_fts.id = sign.id where sign_fts match "${searchValue}" order by rank, phrase asc`
+        query = `select * from sign_fts where sign_fts match "${searchValue}" order by rank, phrase asc`
+        currentSignOffset = 0;
         // query = `select * from sign where id in (
         //     select id from sign_fts where sign_fts match "${searchValue}" order by rank
         // )`
@@ -50,11 +60,8 @@ async function updateSearch(inputQuery){
     if(inputQuery){
         query = inputQuery
     }
-
+    console.log({searchValue,query})
     let signs = await window.db.query(query)
-    if(searchValue){
-        searchResultsElement.innerHTML = ""
-    }
     searchResultsElement.innerHTML = searchResultsElement.innerHTML + signs.map(sign => {
         return `<div class="sign" onclick="showYoutube(this)" id="${sign.id}" youtube_id="${sign.youtube_id}">
                     <div class="sign-phrase">
@@ -81,12 +88,14 @@ async function showYoutube(el){
     let removed = false
     for(let child of el.children){
         if(child.classList.contains('sign-video')){
+            el.classList.remove('selected')
             console.log(child.classList)
             el.removeChild(child)
             removed = true
         }
     }
     if(!removed){
+        el.classList.add('selected')
         let yt_id = el.attributes['youtube_id'].nodeValue
         let youtubeElement = document.createElement('div')
         youtubeElement.classList.add('sign-video')
@@ -130,4 +139,13 @@ function addToList(id){
 function hitWindowBottom() {
     // console.log('bottom')
     updateSearch()
+}
+
+function getParams(){
+    let params = {}
+    window.location.search.substring(1).split('&').forEach(temp => {
+        const [param, value] = temp.split('=')
+        params[param] = value
+    })
+    return params
 }

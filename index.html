@@ -55,38 +55,23 @@
           navigator.serviceWorker.register('/itm/sw.js', {scope: '/itm/'})
         }
     </script> -->
-    <!-- <iframe allowfullscreen="1" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" title="&quot;Ég hlýði Víði&quot;" src="https://www.youtube.com/embed/Nlgj3C4lCY4?enablejsapi=1&amp;origin=https%3A%2F%2Fodinndagur.github.io/itm&amp;widgetid=1" id="widget2" width="450" height="253.125" frameborder="0"></iframe> -->
-    <!-- <iframe width="560" height="315" src="https://www.youtube.com/embed/Nlgj3C4lCY4" frameborder="0" allowfullscreen></iframe> -->
-
-
     <div class="container">
         <header>
-            <a href="./"><div class="heading">Íslenskt táknmál</div></a>
+            <a href="./" class="heading">Íslenskt táknmál</a>
             <!-- <nav>
-                <a href="">lol</a>
+                <button onclick=""><i class="material-icons">home</i></button>
+                <button onclick="showUserCollection()"><i class="material-icons">bookmarks</i></button>
+                <button onclick=""><i class="material-icons">settings</i></button>
             </nav> -->
-            <div class="sign-search">
-                <input type="text" name="" id="search-input" placeholder="Search for a sign" oninput="updateSearch()" onchange="updateSearch()">
+            <div class="sign-search all-signs">
+                <input type="search" name="" id="search-input" placeholder="Search for a sign" oninput="updateSearch()" onchange="updateSearch()">
             </div>
         </header>
-        <div id="app"></div>
-        <div class="search-results"></div>
+        <div class="search-results all-signs"></div>
     </div>
     
-    <!-- Load React. -->
-  <!-- Note: when deploying, replace "development.js" with "production.min.js". -->
-<!--  <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
-  <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
-   Load our React component.
-  <script src="app.js" type="text/babel" async defer></script>-->
 </body>
-
-<style>
-
-</style>
-
-
-
+<script src="//unpkg.com/navigo"></script>
 <script type="module">
     import { load } from "./dist/sql-httpvfs.js";
     window.loadDB = load
@@ -95,13 +80,5 @@
     window.db = db.db
     })
 </script>
-
-<script async defer src="main.js">
-    
-    
-</script>
-
-  
+<script async defer src="main.js"></script>
 </html>
-
-<!-- <iframe allowfullscreen="1" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" title="&quot;Ég hlýði Víði&quot;" src="https://www.youtube.com/embed/Nlgj3C4lCY4?enablejsapi=1&amp;origin=https%3A%2F%2Ftaknmal.netlify.app&amp;widgetid=1" id="widget2" width="450" height="253.125" frameborder="0"></iframe> -->
