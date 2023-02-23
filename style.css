@@ -96,9 +96,12 @@
     box-shadow: 5px 5px 15px -8px rgba(80,80,80,0.3);
 }
 
-.sign:hover {
-  background-color: rgba(80,80,80,0.3);
-  text-decoration: underline;
+@media(hover: hover) and (pointer: fine){
+  .sign:hover {
+    background-color: rgba(80,80,80,0.3);
+    text-decoration: underline;
+  }
+
 }
 .sign-phrase {
   font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
