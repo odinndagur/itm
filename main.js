@@ -12,9 +12,6 @@ function init(){
         },150)
         return
     }
-
-
-
     
     window.addEventListener('scroll', () => {
         // console.log('scroll')
@@ -25,11 +22,15 @@ function init(){
     })
     
     updateSearch()
-    }
+}
+
+function getUserCollectionSigns(){
+    return JSON.parse(window.localStorage.getItem('userCollectionSigns')) || []
+}
 
 
 async function updateSearch(inputQuery){
-    let userCollectionSigns = JSON.parse(window.localStorage.getItem('userCollectionSigns')) || []
+    let userCollectionSigns = getUserCollectionSigns()
     let inp = document.querySelector('#search-input')
     let searchValue = inp.value
     let searchResultsElement = document.querySelector('.search-results')
@@ -40,7 +41,6 @@ async function updateSearch(inputQuery){
     if(!searchValue){
         query = `select * from sign order by phrase asc limit 20 offset ${currentSignOffset}`
         currentSignOffset += 20;
-        // query = 'select * from sign order by phrase asc'
     } if (searchValue[0] === '*'){
         query = `select * from sign where phrase like "%${searchValue.substring(1)}%" order by phrase asc`
         currentSignOffset = 0;
@@ -49,13 +49,8 @@ async function updateSearch(inputQuery){
         if(searchValue[searchValue.length-1] != '*'){
             searchValue = searchValue + '*'
         }
-        // query = `select * from sign_fts join sign on sign_fts.id = sign.id where sign_fts match "${searchValue}" order by rank, phrase asc`
         query = `select * from sign_fts join sign on sign.id = sign_fts.id where sign_fts match "${searchValue}" order by rank, phrase asc`
         currentSignOffset = 0;
-        // query = `select * from sign where id in (
-        //     select id from sign_fts where sign_fts match "${searchValue}" order by rank
-        // )`
-        // query = `select * from sign where phrase like "%${searchValue}%" order by phrase asc`
     }
     if(inputQuery){
         query = inputQuery
@@ -72,16 +67,6 @@ async function updateSearch(inputQuery){
                 </div>`
     }).join('')
 
-}
-
-function createSignElement(sign){
-    return `<div class="sign" onclick="showYoutube(this)" id="${sign.id}" youtube_id="${sign.youtube_id}">
-                    <div class="sign-phrase">
-                        <span>${sign.phrase}</span>
-                        <span class="addToListIcon" onclick="addToList(${sign.id})">
-                        <i class="material-icons">${userCollectionSigns.includes(sign.id) ? 'playlist_add_check' : 'playlist_add'}</i></span>
-                    </div>
-                </div>`
 }
 
 async function showYoutube(el){       
@@ -138,7 +123,9 @@ function addToList(id){
 
 function hitWindowBottom() {
     // console.log('bottom')
-    updateSearch()
+    if(currentSignOffset != 0){
+        updateSearch()
+    }
 }
 
 function getParams(){
