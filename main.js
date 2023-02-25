@@ -34,7 +34,7 @@ async function updateSearch(inputQuery){
     let inp = document.querySelector('#search-input')
     let searchValue = inp.value
     let searchResultsElement = document.querySelector('.search-results')
-    if(!currentSignOffset > 0){
+    if(!currentSignOffset > 0 || searchValue){
         searchResultsElement.innerHTML = ""
     }
     let query
