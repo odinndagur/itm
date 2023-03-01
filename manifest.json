@@ -7,7 +7,7 @@
     "background_color": "#FFFFFF",
     "icons": [
       {
-        "src": "/itm/icons",
+        "src": "/itm/icons/android-chrome-512x512.png",
         "sizes": "512",
         "type": "image/png",
         "purpose": "any"
