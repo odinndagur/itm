@@ -49,13 +49,6 @@ nav button {
     padding-left: env(safe-area-inset-left,0.3rem);
   }
 
-  body {
-    max-height: calc(100vh + env(safe-area-inset-bottom) + env(safe-area-inset-top));
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-  }
-
   
     .container {
       display: flex;
@@ -90,8 +83,6 @@ nav button {
 
   footer {
     flex-shrink: 0;
-    position: sticky;
-    bottom: 0;
   }
 
   .body::-webkit-scrollbar {
@@ -172,7 +163,6 @@ nav button {
   /* width: 90vw;
   margin: auto; */
   padding: 0 1rem;
-  overflow-y: scroll;
 }
 
 a {
